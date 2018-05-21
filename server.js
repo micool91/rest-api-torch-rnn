@@ -3,11 +3,7 @@ const https = require('https');
 const http = require('http');
 const fs = require('fs');
 
-const port = process.env.PORT || 443;
-
-app.listen(port, function () {
-    console.log('listening at ' + port);
-});
+const port = process.env.PORT || 8000;
 
 // This line is from the Node.js HTTPS documentation.
 const options = {

@@ -8,6 +8,6 @@ RUN apt-get install -y nodejs
 
 RUN cd /app && npm install
 
-EXPOSE 80
+EXPOSE 8000
 
 CMD node /app/server.js

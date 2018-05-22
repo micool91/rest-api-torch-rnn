@@ -199,8 +199,8 @@ function generateData(cp, l, t, cb) {
     if (now - when[key] > 10000 || !cached[key]) {
         when[key] = now;
         try {
-            console.log(`cd /root/torch-rnn && th sample.lua -checkpoint ~/rest-api-troch-rnn/${cp} -length ${l} -gpu -1 -temperature ${t}`);
-            exec(`cd /root/torch-rnn && th sample.lua -checkpoint ~/rest-api-troch-rnn/${cp} -length ${l} -gpu -1 -temperature ${t}`, function (err, str) {
+            console.log(`cd /root/torch-rnn && th sample.lua -checkpoint /app/${cp} -length ${l} -gpu -1 -temperature ${t}`);
+            exec(`cd /root/torch-rnn && th sample.lua -checkpoint /app/${cp} -length ${l} -gpu -1 -temperature ${t}`, function (err, str) {
                 if (err) {
                     console.error(err);
                     cb('');

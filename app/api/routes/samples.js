@@ -9,7 +9,7 @@ router.get('/', /*checkAuth,*/ SamplesController.get_samples_all);
 
 router.post('/', checkAuth, SamplesController.post_sample);
 
-router.post('/withoutSave', SamplesController.post_sample_without_save);
+router.post('/without/save', SamplesController.post_sample_without_save);
 
 router.get('/:sampleId', /*checkAuth,*/ SamplesController.get_sample);
 

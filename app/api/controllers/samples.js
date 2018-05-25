@@ -248,3 +248,54 @@ exports.get_samples_by_userId = (req, res, next) => {
             });
         })
 }
+
+
+
+exports.post_sample_without_save = (req, res, next) => {
+    TrainedModel.findById(req.body.trainedModelId)
+        .then(trainedModel => {
+            if (!trainedModel) {
+                return res.status(404).json({
+                    message: 'Nie znaleziono wytrenowanego modelu'
+                });
+            } else {
+                const genLength = req.body.textLength;
+                const genTemperature = req.body.temperature;
+                const modelId = req.body.trainedModelId;
+                const genPathT7 = trainedModel.pathT7;
+                const genPathJson = trainedModel.pathJson;
+                generateData(genPathT7, genLength, genTemperature, function (str) {
+                    console.log('wszedłem2');
+                    // Split into lines, remove the first and last lines and any duplicates
+                    const parts = unique(str.split('\n').slice(1, -1))
+                        .filter(s => s.length > 1);     // Remove lines 1 character or less
+                        //.slice(0, 10)                  // Take a maximum of 10 lines
+                        //.map(s => s); // Wrap in paragraph tags
+                    console.log(parts.join("\n"));
+                    const sample = new Sample({
+                        _id: mongoose.Types.ObjectId(),
+                        text: parts,
+                        textLength: genLength,
+                        temperature: genTemperature,
+                        trainedModel: modelId,
+                        user: req.userData.userId
+                    });
+                    console.log(sample);
+                    res.status(201).json({
+                        message: 'Wygenerowano sampl\'a',
+                        generatedSample: {
+                            _id: sample._id,
+                            trainedModel: sample.trainedModel,
+                            text: sample.text,
+                            temperature: sample.temperature
+                        },
+                        request: {
+                            type: 'GET',
+                            url: 'http://localhost:8000/samples/' + sample._id
+                        }
+                    });
+                });
+            }
+        })
+
+}

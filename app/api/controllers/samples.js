@@ -278,7 +278,6 @@ exports.post_sample_without_save = (req, res, next) => {
                         textLength: genLength,
                         temperature: genTemperature,
                         trainedModel: modelId,
-                        user: req.userData.userId
                     });
                     console.log(sample);
                     res.status(201).json({
